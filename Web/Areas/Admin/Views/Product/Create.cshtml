@@ -1,0 +1,43 @@
+@model Domain.Models.ProductDto
+
+
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label>Product Name</label>
+                <input asp-for="ProductName" type="text" class="form-control " placeholder="" tabindex="1">
+            </div>
+            <div class="form-group">
+                <label>Product Quantity</label>
+                <input asp-for="ProductQuantity" type="text" class="form-control" placeholder="" tabindex="2">
+            </div>
+            <div class="form-group">
+                <label>Product Price</label>
+                <input asp-for="ProductPrice" type="text" class="form-control" placeholder="" tabindex="2">
+            </div>
+            <div class="form-group">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                            <label>Category Name</label>
+                            <select class="form-control" asp-for="CategoryId">
+                            @foreach (var item in ViewBag.Categories )
+                            {
+                                <option value="@item.CategoryId">
+                                    @item.CategoryName
+                                </option>
+                            }
+            
+                            </select>
+                            <span asp-validation-for="CategoryId"></span>
+                        </div>
+            <div class="card-footer">
+                <center>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a asp-action="Index" asp-controller="Product" class="btn btn-secondary">Cancle</a>
+                </center>
+            </div>
+        </div>
+    </div>
+</form>
