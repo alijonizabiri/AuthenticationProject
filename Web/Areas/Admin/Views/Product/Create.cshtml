@@ -1,7 +1,7 @@
 @model Domain.Models.ProductDto
 
 
-<form asp-action="Create" method="post">
+<form enctype="multipart/form-data" asp-action="Create" method="post" >
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group">
@@ -17,21 +17,25 @@
                 <input asp-for="ProductPrice" type="text" class="form-control" placeholder="" tabindex="2">
             </div>
             <div class="form-group">
+                <label>Product Image</label>
+                <input asp-for="ProductImage" type="file" class="form-control" placeholder="" tabindex="2">
+            </div>
+            <div class="form-group">
                 <div asp-validation-summary="All" class="text-danger"></div>
             </div>
             <div class="form-group">
-                            <label>Category Name</label>
-                            <select class="form-control" asp-for="CategoryId">
-                            @foreach (var item in ViewBag.Categories )
-                            {
-                                <option value="@item.CategoryId">
-                                    @item.CategoryName
-                                </option>
-                            }
-            
-                            </select>
-                            <span asp-validation-for="CategoryId"></span>
-                        </div>
+                <label>Category Name</label>
+                <select class="form-control" asp-for="CategoryId">
+                    @foreach (var item in ViewBag.Categories)
+                    {
+                        <option value="@item.CategoryId">
+                            @item.CategoryName
+                        </option>
+                    }
+
+                </select>
+                <span asp-validation-for="CategoryId"></span>
+            </div>
             <div class="card-footer">
                 <center>
                     <button type="submit" class="btn btn-primary">Submit</button>

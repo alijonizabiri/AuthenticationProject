@@ -1,6 +1,8 @@
 using AutoMapper;
 using Domain;
 using Domain.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 
@@ -10,11 +12,13 @@ public class ProductServices
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public ProductServices(DataContext context, IMapper mapper)
+    public ProductServices(DataContext context, IMapper mapper, IWebHostEnvironment webHostEnvironment)
     {
         _context = context;
         _mapper = mapper;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public async Task<List<ProductCategoriesDto>> GetProducts()
@@ -30,27 +34,46 @@ public class ProductServices
                 ProductQuantity = p.ProductQuantity,
                 ProductPrice = p.ProductPrice,
                 CategoryId = c.CategoryId,
-                CategoryName = c.CategoryName
+                CategoryName = c.CategoryName,
+                ProductImage = p.ProductImage
             }
         ).ToListAsync();
         return list;
     }
 
-    public async Task<int> InsertProduct(ProductDto productDto)
+    public async Task<int> InsertProduct(ProductDto product)
     {
-        var map = _mapper.Map<Product>(productDto);
+        var fileName = Guid.NewGuid() + "_" + Path.GetFileName(product.ProductImage.FileName);
+        var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", fileName);
+
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            await product.ProductImage.CopyToAsync(stream);
+        }
+        
+        var map = _mapper.Map<Product>(product);
+        map.ProductImage = fileName;
         await _context.Products.AddAsync(map);
         return await _context.SaveChangesAsync();
     }
     
-    public async Task<int> UpdateProduct(ProductDto productDto)
+    public async Task<int> UpdateProduct(ProductDto product)
     {
-        var finded = await _context.Products.FindAsync(productDto.ProductId);
-        finded.ProductId = productDto.ProductId;
-        finded.ProductName = productDto.ProductName;
-        finded.ProductQuantity = productDto.ProductQuantity;
-        finded.ProductPrice = productDto.ProductPrice;
-        finded.CategoryId = productDto.CategoryId;
+        var fileName = Guid.NewGuid() + "_" + Path.GetFileName(product.ProductImage.FileName);
+        var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", fileName);
+
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            await product.ProductImage.CopyToAsync(stream);
+        }
+        
+        var finded = await _context.Products.FindAsync(product.ProductId);
+        finded.ProductId = product.ProductId;
+        finded.ProductName = product.ProductName;
+        finded.ProductQuantity = product.ProductQuantity;
+        finded.ProductPrice = product.ProductPrice;
+        finded.CategoryId = product.CategoryId;
+        finded.ProductImage = fileName;
         return await _context.SaveChangesAsync();
     }
 

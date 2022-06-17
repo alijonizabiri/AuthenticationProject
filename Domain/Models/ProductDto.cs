@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Domain.Models;
 
@@ -9,6 +9,7 @@ public class ProductDto
     public string? ProductQuantity { get; set; }
     public string? ProductPrice { get; set; }
     public int CategoryId { get; set; }
+    public IFormFile? ProductImage { get; set; }
 }
 
 public class ProductCategoriesDto
@@ -19,6 +20,6 @@ public class ProductCategoriesDto
     public string? ProductPrice { get; set; }
     public int CategoryId { get; set; }
     public string? CategoryName { get; set; }
-
+    public string? ProductImage { get; set; }
 }
 

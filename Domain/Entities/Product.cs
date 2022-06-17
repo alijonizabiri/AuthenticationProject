@@ -11,6 +11,7 @@ public class Product
     [MaxLength(100)]
     public string? ProductQuantity { get; set; }
     public string? ProductPrice { get; set; }
+    public string? ProductImage { get; set; }
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
     public List<SaleFact>? SalesFact { get; set; }

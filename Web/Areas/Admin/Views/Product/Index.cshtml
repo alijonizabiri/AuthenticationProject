@@ -22,6 +22,7 @@
                         <td>Product Quantity</td>
                         <td>Product Price</td>
                         <td>Category Name</td>
+                        <td>Product Image</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,6 +34,7 @@
                             <td>@item.ProductQuantity</td>
                             <td>@item.ProductPrice</td>
                             <td>@item.CategoryName</td>
+                            <td><img src="~/Images/@item.ProductImage"/></td>
 
                             <td>
                                 <a class="nav-link text-dark" asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId">

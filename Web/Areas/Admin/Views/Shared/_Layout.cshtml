@@ -1,3 +1,5 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 <!DOCTYPE html>
 <html lang="en">
 
@@ -187,7 +189,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <img class="img-md rounded-circle" src="~/images/face8.jpg" alt="Profile image">
-                        <p class="mb-1 mt-3 font-weight-semibold">@User.Identity.Name</p>
+                        <p class="mb-1 mt-3 font-weight-semibold">@User.Identity.Name</p> 
                         <p class="fw-light text-muted mb-0">alijonizabiri@gmail.com </p>
                     }         
                   
